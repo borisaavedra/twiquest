@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+    <h2 class="my-4">
+        Hot users tweeting about "{{ trend }}"
+    </h2>
+    <p>
+        <a href="/" rel="noopener noreferrer">
+            Back to trends
+        </a>
+    </p>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Users</th>
+                <th scope="col">Count</th>
+                <th scope="col">Is a Bot?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in list_count %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>
+                        <a href="{{ user['url'] }}" target="_blank" rel="noopener noreferrer">
+                            {{ user["username"] }}
+                        </a>
+                    </td>
+                    <td>{{ user["count"] }}</td>
+                    <td>
+                        <form action="{{ url_for('checker', user=user['username']) }}" method="GET">
+                            <button type="submit" class="btn btn-secondary" id="checker{{ loop.index }}" onclick="loader('checker{{ loop.index }}')">
+                                Check user
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

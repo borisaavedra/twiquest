@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="jumbotron jumbotron-fluid" style="background-color: white;">
+        <div class="container text-center">
+            <h1 class="display-4">TwiQuest</h1>
+            <p class="lead">Check who's tweeting what and from where</p>
+        </div>
+    </div>
+    <section>
+        <form action="" method="POST" class="form-inline d-flex justify-content-center mb-4">
+                <!-- <div class="col d-flex flex-row-reverse">
+                    <div class="group-form d-flex align-items-center">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="noRt" value="-filter:retweets" name="noRt">
+                            <label class="form-check-label" for="noRt">No ReTweets</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="noLink" value="-filter:links" name="noLink">
+                            <label class="form-check-label" for="noLink">No Links</label>
+                        </div>
+                    </div>
+                </div> -->
+            <select name="country" id="country" class="form-control mr-2">
+                <option value="" disabled selected>Select a country...</option>
+                <option value="VE">Venezuela</option>
+                <option value="US">USA</option>
+            </select>
+            <button type="submit" class="btn btn-primary" id="getTrends" onclick="loader('getTrends', 'trends-spinner')">
+                Get Trends!
+                <div class="spinner-border spinner-border-sm text-light" id="trends-spinner" role="status"></div>
+            </button>
+        </form>
+    </section>
+    <section>
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Trending Topic ({{ country }})</th>
+                    <th scope="col">Tweet Volume</th>
+                    <th scope="col">Hot Users</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if trends %}
+                    {% for trend in trends[0]["trends"] %}
+                        <tr>
+                            <th scope="row">{{ loop.index }}</th>
+                            <td>{{ trend["name"] }}</td>
+                            {% if trend["tweet_volume"] == None %}
+                                <td class="text-muted">No data</td>
+                            {% else %}
+                                <td>{{ trend["tweet_volume"] }}</td>
+                            {% endif %}
+                            <td>
+                                <form action="{{ url_for('users') }}" method="POST">
+                                    <button type="submit" class="btn btn-secondary" name="trending" value="{{ trend['name'] }}" onclick="loader('btnHit{{ loop.index }}', '{{ loop.index }}-spinner')" id="btnHit{{ loop.index }}">
+                                        Hit it!
+                                        <!-- <div class="spinner-border spinner-border-sm text-light" id="{{ loop.index }}-spinner" role="status"></div> -->
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                        <tr><td colspan="4" class="text-center text-muted">You have to select a country to get trends</td></tr>
+                    {% endif %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}

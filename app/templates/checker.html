@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% macro botcard(botometer) %}
+    Botometer:
+        {% if botometer < 25 %} 
+        <span style="background-color: lightgreen; font-weight: bold;">{{ botometer }}%</span>
+        {% elif botometer < 75 %}
+        <span style="background-color: lightyellow; font-weight: bold;">{{ botometer }}%</span>
+        {% else %}
+        <span style="background-color: rgb(250, 113, 113); font-weight: bold;">{{ botometer }}%</span>
+        {% endif %}
+{% endmacro %}
+
+<div class="d-flex justify-content-center">
+    <div class="card mt-4" style="width: 50%;">
+        <img src="{{ user['profile_image_url'] }}" class="card-img-top" alt="{{ user['name'] }}">
+        <div class="card-body">
+        <h5 class="card-title">{{ user['name'] }} ({{ user['screen_name'] }})</h5>
+        <p class="card-text">
+            <div>
+                <i>Description:&nbsp;</i>{{ user['description'] }}
+                <p><span class="text-muted"><small>Account created at: {{ user['created_at'] }}</small></span></p>
+            </div>
+            <div>
+                <div class="d-flex justify-content-around"">
+                    <div>Followers: {{ user['followers_count'] }}</div>
+                    <div>Following: {{ user['friends_count'] }}</div>
+                    <div>Tweet count: {{ user['statuses_count'] }}</div>
+                </div>
+                <div>
+                    
+                </div>
+            </div>
+            <div class="d-flex justify-content-center mt-4">
+                <h2>{{ botcard(botometer) }}</h2>
+            </div>
+        </p>
+        <div class="d-flex justify-content-center">
+            <a href="{{ url }}" target="_blank" class="btn btn-primary">Go to Twitter Profile</a>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
