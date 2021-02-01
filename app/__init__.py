@@ -1,17 +1,18 @@
 from flask import Flask
 import tweepy as tw
 import botometer
+import os
 
 
-consumer_key = 'W5g8887F1MMJULTfuHm1VNpox'
-consumer_secret = 'XUVn2ArHPW60zYeAnzwmbDwy4MP895ypnZK0LgIQaDjmsPHRsJ'
-access_token = '54961938-o0Mz9CuywdIauHnKmNFXwcN941KPKIyJ6K9UqqgFh'
-access_token_secret = 'FCRk1UcjIrHwQLfhz4dlizUZv8s4FJAqbBS0YEiewqLss'
-rapidapi_key = "bbeb6f3455msha721a10e28b7df7p1d1702jsnf1ec7be85f23"
+consumer_key = os.environ.get("COSUMER_KEY")
+consumer_secret = os.environ.get("CONSUMER_SECRET")
+access_token = os.environ.get("ACCESS_TOKEN")
+access_token_secret = os.environ.get("ACCESS_TOKEN_SECRET")
+rapidapi_key = os.environ.get("RAPIDAPI_KEY")
 
 
 app = Flask(__name__)
-app.secret_key = "super secret key"
+app.secret_key = os.environ.get("SECRET_KEY")
 
 bom = botometer.Botometer(wait_on_rate_limit=True,
                             rapidapi_key=rapidapi_key,
